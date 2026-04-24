@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+
+<html lang="uk">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>З Днем Народження, Дашуня! 🎂</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Cormorant+Garamond:wght@400;500;600&family=Nunito:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --pink: #ff6b9d;
+      --pink-light: #ffb3d1;
+      --pink-pale: #fff0f6;
+      --purple: #c084fc;
+      --purple-dark: #7c3aed;
+      --text: #3d1a5c;
+      --white: #ffffff;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 40%, #e8eaf6 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .hearts-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .heart-float {
+      position: absolute;
+      opacity: 0.15;
+      animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(110vh) rotate(0deg);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.15;
+      }
+
+      90% {
+        opacity: 0.15;
+      }
+
+      100% {
+        transform: translateY(-10vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 870px;
+    }
+
+    #quiz-screen .container-wide {
+      max-width: 870px;
+    }
+
+    .question-main {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 4px;
+    }
+
+    .question-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .next-wrap {
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      .question-main {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 26px;
+      }
+
+      .question-photo {
+        width: 300px !important;
+        flex-shrink: 0;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes cardIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.98);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes bounce {
+      from {
+        transform: translateY(0);
+      }
+
+      to {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes pop {
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+
+      70% {
+        transform: scale(1.15);
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes correctPop {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.03);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-6px);
+      }
+
+      75% {
+        transform: translateX(6px);
+      }
+    }
+
+    /* WELCOME */
+    #welcome-screen {
+      animation: fadeIn 0.8s ease;
+    }
+
+    .welcome-card {
+      background: var(--white);
+      border-radius: 28px;
+      padding: 44px 32px;
+      text-align: center;
+      box-shadow: 0 8px 48px rgba(192, 132, 252, 0.2), 0 2px 12px rgba(255, 107, 157, 0.12);
+    }
+
+    .birthday-emoji {
+      font-size: 3.5rem;
+      margin-bottom: 16px;
+      display: block;
+      animation: bounce 1s ease infinite alternate;
+    }
+
+    .welcome-photo {
+      width: 200px;
+      height: 200px;
+      border-radius: 20px;
+      object-fit: cover;
+      margin: 0 auto 18px;
+      display: block;
+      border: 4px solid var(--white);
+      box-shadow: 0 6px 24px rgba(255, 107, 157, 0.35), 0 0 0 3px var(--pink-light);
+      animation: pop 0.7s ease;
+    }
+
+    .question-photo {
+      width: 90%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 16px;
+      margin: 0 auto;
+      display: block;
+      box-shadow: 0 4px 18px rgba(192, 132, 252, 0.25);
+    }
+
+    .welcome-card h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: var(--text);
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+
+    .welcome-card h1 .name {
+      color: var(--pink);
+      font-style: italic;
+    }
+
+    .welcome-divider {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--pink), var(--purple));
+      border-radius: 99px;
+      margin: 18px auto;
+    }
+
+    .welcome-card .subtitle {
+      font-size: 1.05rem;
+      color: #7c4a9e;
+      line-height: 1.65;
+      margin-bottom: 6px;
+    }
+
+    .welcome-card .subtitle strong {
+      color: var(--pink);
+    }
+
+    .welcome-card .hint {
+      font-size: 0.88rem;
+      color: #b08ec0;
+      margin-bottom: 28px;
+      margin-top: 6px;
+    }
+
+    .btn-start {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: white;
+      border: none;
+      border-radius: 99px;
+      padding: 16px 44px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      font-family: 'Nunito', sans-serif;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(255, 107, 157, 0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-start:hover {
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 8px 28px rgba(255, 107, 157, 0.45);
+    }
+
+    .btn-start:active {
+      transform: scale(0.98);
+    }
+
+    /* QUIZ */
+    #quiz-screen {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .quiz-header {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .quiz-header .emoji-row {
+      font-size: 1.8rem;
+      margin-bottom: 5px;
+    }
+
+    .quiz-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--text);
+    }
+
+    .progress-label {
+      text-align: right;
+      font-size: 0.82rem;
+      color: #9c6aae;
+      margin-bottom: 5px;
+      font-weight: 700;
+    }
+
+    .progress-wrap {
+      background: #e8d5f0;
+      border-radius: 99px;
+      height: 8px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--pink), var(--purple));
+      border-radius: 99px;
+      transition: width 0.5s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 30px 26px;
+      box-shadow: 0 8px 40px rgba(192, 132, 252, 0.18), 0 2px 8px rgba(255, 107, 157, 0.1);
+      animation: cardIn 0.4s ease;
+    }
+
+    .question-num {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--pink);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+    }
+
+    .question-text {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 22px;
+      line-height: 1.4;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    .option-btn {
+      background: var(--pink-pale);
+      border: 2.5px solid transparent;
+      border-radius: 14px;
+      padding: 8px 18px;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: 'Nunito', sans-serif;
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.22s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      background: #ffd6e8;
+      border-color: var(--pink-light);
+      transform: translateX(4px);
+    }
+
+    .option-btn.correct {
+      background: #d1fae5;
+      border-color: #34d399;
+      color: #065f46;
+      animation: correctPop 0.4s ease;
+    }
+
+    .option-btn.wrong {
+      background: #fee2e2;
+      border-color: #f87171;
+      color: #991b1b;
+      animation: shake 0.4s ease;
+    }
+
+    .option-letter {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .option-btn.correct .option-letter {
+      background: #34d399;
+    }
+
+    .option-btn.wrong .option-letter {
+      background: #f87171;
+    }
+
+    .feedback-msg {
+      margin-top: 16px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-align: center;
+      display: none;
+    }
+
+    .feedback-msg.show-correct {
+      background: #d1fae5;
+      color: #065f46;
+      display: block;
+    }
+
+    .feedback-msg.show-wrong {
+      background: #fff7ed;
+      color: #92400e;
+      display: block;
+    }
+
+    .btn-next {
+      margin-top: 20px;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: white;
+      border: none;
+      border-radius: 99px;
+      padding: 14px 44px;
+      font-size: 1rem;
+      font-weight: 800;
+      font-family: 'Nunito', sans-serif;
+      cursor: pointer;
+      display: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(255, 107, 157, 0.3);
+    }
+
+    .btn-next:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(255, 107, 157, 0.4);
+    }
+
+    .btn-next.visible {
+      display: inline-block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    /* CERTIFICATE */
+    #cert-screen {
+      display: none;
+      text-align: center;
+      animation: fadeIn 0.8s ease;
+    }
+
+    .confetti-header {
+      font-size: 2.8rem;
+      margin-bottom: 12px;
+      animation: pop 0.6s ease;
+    }
+
+    .cert-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .cert-subtitle {
+      color: #9c6aae;
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+
+    .cert-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 32px 28px;
+      box-shadow: 0 8px 48px rgba(192, 132, 252, 0.22), 0 2px 12px rgba(255, 107, 157, 0.12);
+      border: 2px solid #f0d6ff;
+    }
+
+    .gift-from {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      line-height: 1.35;
+      margin-bottom: 14px;
+    }
+
+    .gift-from .brand {
+      color: #1a3a5e;
+      letter-spacing: 2px;
+    }
+
+    .gift-message {
+      font-style: italic;
+      font-size: 1.1rem;
+      color: #3d1a5c;
+      margin-bottom: 22px;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* Soybird gift card recreation */
+    .soybird-card {
+      background: #e6e2ce;
+      border-radius: 18px;
+      padding: 36px 24px 30px;
+      margin: 0 auto 22px;
+      max-width: 340px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .soybird-card::before {
+      content: "🍕 🍔 🥂 🍟 🥤 🍦 🍺 🌮 🍩 🧁 🍷 🥙 🍕 🍔 🥂 🍟 🥤 🍦 🍺 🌮 🍩 🧁 🍷 🥙";
+      position: absolute;
+      inset: 0;
+      font-size: 1.5rem;
+      color: rgba(26, 58, 94, 0.12);
+      line-height: 2.4;
+      word-spacing: 8px;
+      padding: 8px;
+      overflow: hidden;
+      letter-spacing: 2px;
+      pointer-events: none;
+    }
+
+    .soybird-card-inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      background: transparent;
+    }
+
+    .soybird-bird {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 8px;
+      filter: sepia(0.6) hue-rotate(180deg) saturate(2);
+      color: #1a3a5e;
+    }
+
+    .soybird-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #1a3a5e;
+      letter-spacing: 6px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .soybird-tagline {
+      font-size: 0.68rem;
+      color: #1a3a5e;
+      letter-spacing: 3px;
+      font-weight: 500;
+    }
+
+    .gift-code {
+      font-family: monospace;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+    }
+
+    .gift-date {
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 24px;
+    }
+
+    .cert-link-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: white;
+      text-decoration: none;
+      border-radius: 99px;
+      padding: 16px 36px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      font-family: 'Nunito', sans-serif;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(255, 107, 157, 0.4);
+    }
+
+    .cert-link-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 28px rgba(255, 107, 157, 0.5);
+    }
+
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .music-toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 1000;
+      background: var(--white);
+      border: 2px solid var(--pink-light);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      cursor: pointer;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(255, 107, 157, 0.25);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .music-toggle:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 20px rgba(255, 107, 157, 0.35);
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="hearts-bg" id="heartsBg"></div>
+  <canvas id="confetti-canvas"></canvas>
+  <audio id="bgMusic" src="1.mp3" loop preload="auto"></audio>
+  <button class="music-toggle" id="musicToggle" aria-label="Музика" title="Музика">🎵</button>
+
+  <div class="container">
+
+    <!-- WELCOME -->
+
+    <div id="welcome-screen">
+      <div class="welcome-card">
+        <img src="1.jpeg" alt="Дашуня" class="welcome-photo">
+        <h1>Вітаю з Днем<br>Народження, <span class="name">Дашуню!</span></h1>
+        <div class="welcome-divider"></div>
+        <p class="subtitle">
+          Але перш ніж отримати свій <strong>подарунок</strong> —<br>
+          тобі доведеться пройти невеличкий тест 😏
+        </p>
+        <p class="hint">5 питань. Без підказок. Удачі! 🌸</p>
+        <button class="btn-start" onclick="startQuiz()">Розпочати тест 🚀</button>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+
+    <div id="quiz-screen">
+      <div class="progress-label" id="progressLabel">Питання 1 з 5</div>
+      <div class="progress-wrap">
+        <div class="progress-bar" id="progressBar" style="width:20%"></div>
+      </div>
+      <div class="card" id="questionCard">
+        <div class="question-main">
+          <img id="questionPhoto" class="question-photo" alt="">
+          <div class="question-body">
+            <div class="question-num" id="questionNum">Питання 1</div>
+            <div class="question-text" id="questionText"></div>
+            <div class="options" id="optionsContainer"></div>
+          </div>
+        </div>
+        <div class="feedback-msg" id="feedbackMsg"></div>
+        <div class="next-wrap">
+          <button class="btn-next" id="btnNext" onclick="nextQuestion()">Далі →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CERTIFICATE -->
+
+    <div id="cert-screen">
+      <div class="confetti-header">🎉🎊🥳</div>
+      <h2 class="cert-title">Ти молодець, Дашуню!</h2>
+      <p class="cert-subtitle">Тест пройдено — ось твій подарунок 🎁</p>
+      <div class="cert-card">
+        <div class="gift-from">Маруся передала тобі<br>подарунок від <span class="brand">SOYBIRD</span></div>
+        <div class="gift-message">З днем народження, любове моя 🌸</div>
+
+        <div class="soybird-card">
+          <div class="soybird-card-inner">
+            <div class="soybird-bird">🕊️</div>
+            <div class="soybird-logo">SOYBIRD</div>
+            <div class="soybird-tagline">VEGAN COOKING EXPERIENCE</div>
+          </div>
+        </div>
+
+        <div class="gift-code">2HKPB–42C75–559VJ–8Y2YV</div>
+        <div class="gift-date">Дата видачі: 24/4/2026</div>
+
+        <a href="https://fareharbor.com/embeds/book/soybird/gift-cards/2HKPB-42C75-559VJ-8Y2YV/?language=en-gb"
+          target="_blank" class="cert-link-btn">
+          🎁 Отримай свій подаруночок
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questions = [
+      {
+        image: "2.jpeg",
+        text: "Вгадай на скільки відсотків я тебе люблю? 💕",
+        options: ["30%", "99%", "350%"],
+        correct: 2,
+        correctMsg: "Правильно! 350% — бо звичайного кохання нам замало 💖",
+        wrongMsg: "Неправильно! Звісно ж 350% — ми не звичайні люди 😂"
+      },
+      {
+        image: "3.jpeg",
+        text: "Що я роблю коли сумую за тобою? 🥺",
+        options: ["Дивлюсь у вікно й зітхаю", "Надсилаю мільйон рілсів", "Їм і думаю про тебе"],
+        correct: 1,
+        correctMsg: "Абсолютно вірно! Твій телефон в небезпеці 😂📱",
+        wrongMsg: "Ні-ні! Мільйон рілсів — ось моя мова кохання 📱💕"
+      },
+      {
+        image: "4.jpeg",
+        text: "Вгадай на скільки відсотків ми пропрацьовані психологічні чікулі? 🧠",
+        options: ["100% — ми здорові та збалансовані", "50% — є над чим працювати", "0% — але нам з цим добре 🥲"],
+        correct: 2,
+        correctMsg: "Ми з Кривбасу, тому кукуха точно не в порядку 😂❤️",
+        wrongMsg: "Ха! Ми з Кривбасу, тому кукуха точно не в порядку 😂"
+      },
+      {
+        image: "5.jpeg",
+        text: "Що буде якщо ти не привітаєш мене з днем народження? 👀",
+        options: ["Нічого, я strong 💪", "Буду трохи засмучена", "Оголошу тебе в розшук 🚨"],
+        correct: 2,
+        correctMsg: "Точно! Інтерпол вже був би у курсі 🚨😂",
+        wrongMsg: "Ні! Оголошу в розшук — без варіантів 🚨😂"
+      },
+      {
+        image: "6.jpeg",
+        text: "Ким ти є в моєму житті? ✨",
+        options: ["Просто знайома", "Подруга", "Ціла всесвіт у людській подобі ✨"],
+        correct: 2,
+        correctMsg: "Саме так! Ти — цілий всесвіт, Дашуню 🌌💕",
+        wrongMsg: "Неправильно! Ти — ціла всесвіт у людській подобі, не менше! ✨"
+      }
+    ];
+
+    let current = 0;
+    let answered = false;
+
+    function startQuiz() {
+      document.getElementById('welcome-screen').style.display = 'none';
+      document.getElementById('quiz-screen').style.display = 'block';
+      const audio = document.getElementById('bgMusic');
+      audio.volume = 0.5;
+      audio.play().catch(() => { });
+      renderQuestion();
+    }
+
+    function toggleMusic() {
+      const audio = document.getElementById('bgMusic');
+      const btn = document.getElementById('musicToggle');
+      if (audio.paused) {
+        audio.play().catch(() => { });
+        btn.textContent = '🎵';
+      } else {
+        audio.pause();
+        btn.textContent = '🔇';
+      }
+    }
+
+    document.getElementById('musicToggle').addEventListener('click', toggleMusic);
+
+    function renderQuestion() {
+      answered = false;
+      const q = questions[current];
+      document.getElementById('questionNum').textContent = `Питання ${current + 1}`;
+      const photo = document.getElementById('questionPhoto');
+      if (q.image) {
+        photo.src = q.image;
+        photo.style.display = 'block';
+      } else {
+        photo.style.display = 'none';
+      }
+      document.getElementById('questionText').textContent = q.text;
+      document.getElementById('progressLabel').textContent = `Питання ${current + 1} з ${questions.length}`;
+      document.getElementById('progressBar').style.width = `${((current + 1) / questions.length) * 100}%`;
+      document.getElementById('feedbackMsg').className = 'feedback-msg';
+      document.getElementById('feedbackMsg').textContent = '';
+      document.getElementById('btnNext').classList.remove('visible');
+
+      const container = document.getElementById('optionsContainer');
+      container.innerHTML = '';
+      const letters = ['А', 'Б', 'В', 'Г'];
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerHTML = `<span class="option-letter">${letters[i]}</span>${opt}`;
+        btn.onclick = () => selectAnswer(i);
+        container.appendChild(btn);
+      });
+
+      const card = document.getElementById('questionCard');
+      card.style.animation = 'none';
+      card.offsetHeight;
+      card.style.animation = 'cardIn 0.4s ease';
+    }
+
+    function selectAnswer(idx) {
+      if (answered) return;
+      answered = true;
+      const q = questions[current];
+      const btns = document.querySelectorAll('.option-btn');
+      btns.forEach(b => b.disabled = true);
+
+      const feedback = document.getElementById('feedbackMsg');
+      const nextBtn = document.getElementById('btnNext');
+
+      if (idx === q.correct) {
+        btns[idx].classList.add('correct');
+        feedback.textContent = '✅ ' + q.correctMsg;
+        feedback.className = 'feedback-msg show-correct';
+      } else {
+        btns[idx].classList.add('wrong');
+        btns[q.correct].classList.add('correct');
+        feedback.textContent = '😅 ' + q.wrongMsg;
+        feedback.className = 'feedback-msg show-wrong';
+      }
+
+      nextBtn.textContent = current === questions.length - 1 ? 'Отримати подарунок 🎁' : 'Далі →';
+      nextBtn.classList.add('visible');
+    }
+
+    function nextQuestion() {
+      current++;
+      if (current >= questions.length) showCertificate();
+      else renderQuestion();
+    }
+
+    function showCertificate() {
+      document.getElementById('quiz-screen').style.display = 'none';
+      document.getElementById('cert-screen').style.display = 'block';
+      launchConfetti();
+    }
+
+    // Floating hearts
+    (function () {
+      const bg = document.getElementById('heartsBg');
+      const emojis = ['💕', '🌸', '💖', '🎀', '✨', '💗', '🌺'];
+      for (let i = 0; i < 18; i++) {
+        const el = document.createElement('div');
+        el.className = 'heart-float';
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.left = Math.random() * 100 + '%';
+        el.style.animationDuration = (8 + Math.random() * 10) + 's';
+        el.style.animationDelay = (Math.random() * 12) + 's';
+        el.style.fontSize = (1 + Math.random() * 1.5) + 'rem';
+        bg.appendChild(el);
+      }
+    })();
+
+    // Confetti
+    function launchConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const colors = ['#ff6b9d', '#c084fc', '#f59e0b', '#34d399', '#60a5fa', '#f472b6'];
+      const pieces = Array.from({ length: 130 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * -canvas.height,
+        r: 4 + Math.random() * 6,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        speed: 2 + Math.random() * 4,
+        angle: Math.random() * Math.PI * 2,
+        spin: (Math.random() - 0.5) * 0.2,
+        drift: (Math.random() - 0.5) * 1.5,
+        shape: Math.random() > 0.5 ? 'circle' : 'rect'
+      }));
+      let frame = 0;
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach(p => {
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.angle);
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = 0.85;
+          if (p.shape === 'circle') {
+            ctx.beginPath(); ctx.arc(0, 0, p.r, 0, Math.PI * 2); ctx.fill();
+          } else {
+            ctx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r);
+          }
+          ctx.restore();
+          p.y += p.speed; p.x += p.drift; p.angle += p.spin;
+          if (p.y > canvas.height) { p.y = -10; p.x = Math.random() * canvas.width; }
+        });
+        frame++;
+        if (frame < 320) requestAnimationFrame(draw);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      draw();
+    }
+  </script>
+
+</body>
+
+</html>
